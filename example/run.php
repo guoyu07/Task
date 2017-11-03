@@ -11,19 +11,17 @@ require "../Loader.php";
 // 自动加载
 $loader = new Loader();
 $loader->addPrefix('Tony\Task', '../src');
-$loader->addPrefix('Demo', '');
+$loader->addPrefix('Demo', __DIR__);
 $loader->register();
 
-
-use Demo\LogAll;
+use Demo\Task\LogAll;
 use Tony\Task\CronCenter;
 
 $cronCenterSubject = new CronCenter();
 $cronCenterSubject->everyFiveMinutes();
 $cronCenterSubject->attach(new LogAll());
 
-(new \Tony\Task\Run())->run();
-
+(new \Tony\Task\Run())->setTimer($cronCenterSubject)->run();
 
 
 

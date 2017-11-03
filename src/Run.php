@@ -23,6 +23,7 @@ class Run extends Daemon
     public function setTimer(CronCenter $cron)
     {
         $this->cron = $cron;
+        return $this;
     }
 
     public function run()
