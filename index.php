@@ -12,18 +12,27 @@ $loader = new Loader();
 $loader->addPrefix('Tony\Task', 'src');
 $loader->register();
 
+use Tony\Task\DaemonBak;
 
-use Tony\Task\Timer;
 
-$timer = new Timer();
-$timer->everyFiveMinutes();
+$daemon = new DaemonBak();
 
-while (true) {
-    echo $timer->nextRunDate() . "\n";
-    sleep(5);
-}
+$daemon->fork();
 
-//$timer->timezone = DateTimeZone::ASIA;
 
-// var_dump($timer->isDue()) . "\n";
-echo $timer->nextRunDate();
+
+
+//use Tony\Task\Timer;
+//
+//$timer = new Timer();
+//$timer->everyFiveMinutes();
+//
+//while (true) {
+//    echo $timer->nextRunDate() . "\n";
+//    sleep(5);
+//}
+//
+////$timer->timezone = DateTimeZone::ASIA;
+//
+//// var_dump($timer->isDue()) . "\n";
+//echo $timer->nextRunDate();
