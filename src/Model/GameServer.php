@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Tony Chen
+ * User: chendan
  * Date: 2017/11/3
- * Time: 16:50
+ * Time: 下午9:14
  */
 
-class AnalysisPlayer
+class GameServer
 {
 
 }

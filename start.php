@@ -6,43 +6,33 @@
  * Time: 16:39
  */
 
-require "../Loader.php";
+use Tony\Task\Runner;
+
+require "core/Loader.php";
 
 // 自动加载
 $loader = new Loader();
-$loader->addPrefix('Tony\Task', '../src');
-$loader->addPrefix('Demo', __DIR__);
+$loader->addPrefix('Tony\Task', __DIR__ . '/core');
+$loader->addPrefix('App', __DIR__ . '/src');
 $loader->register();
 
+require "app/cron.php";
+$config = require "app/config.php";
+
+$runner = new Runner($config['daemon']);
+$runner->setCrons($cronCenters);
 
 $action = $argv[1];
-
 switch ($action) {
     case 'start':
-        (new \Tony\Task\Run())->run();
+        $runner->start();
         break;
     case 'stop':
-        (new \Tony\Task\Run())->kill("/tmp/process.pid");
+        $runner->stop();
         break;
     case 'ask':
-        if (Daemon::isRunning('/path/to/process.pid')) {
-            echo "daemon is running.\n";
-        } else {
-            echo "daemon is not running.\n";
-        }
+        $runner->ask();
         break;
     default:
         exit('input error!');
 }
-
-//
-//use Demo\Task\LogAll;
-//use Tony\Task\CronCenter;
-//
-//$cronCenterSubject = new CronCenter();
-//$cronCenterSubject->everyFiveMinutes();
-//$cronCenterSubject->attach(new LogAll());
-//
-//(new \Tony\Task\Run())->setTimer($cronCenterSubject)->run();
-
-
