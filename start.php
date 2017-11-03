@@ -25,6 +25,11 @@ switch ($action) {
         (new \Tony\Task\Run())->kill("/tmp/process.pid");
         break;
     case 'ask':
+        if (Daemon::isRunning('/path/to/process.pid')) {
+            echo "daemon is running.\n";
+        } else {
+            echo "daemon is not running.\n";
+        }
         break;
     default:
         exit('input error!');
