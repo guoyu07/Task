@@ -9,20 +9,20 @@
 namespace Tony\Task;
 
 
-class Task
+class Run extends Daemon
 {
     /**
-     * @var Timer
+     * @var CronCenter
      */
-    public $timer;
+    public $cron;
 
     /**
      * 时间对象
-     * @param Timer $timer
+     * @param CronCenter $cron
      */
-    public function setTimer(Timer $timer)
+    public function setTimer(CronCenter $cron)
     {
-        $this->timer = $timer;
+        $this->cron = $cron;
     }
 
     public function run()
@@ -30,9 +30,11 @@ class Task
         while (true) {
             // 1秒检测一次
             sleep(1);
-            if ($this->timer->isDue()) {
-                echo 1;
-            }
+
+            $this->cron->notify();
+//            if ($this->cron->isDue()) {
+//                $this->cron->notify();
+//            }
         }
     }
 }
