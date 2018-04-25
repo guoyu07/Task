@@ -19,5 +19,4 @@ $cronCenterSubject->attach(new LogAll());
 
 
 // 每天运行一次的定时器
-
 $cronCenters->attach($cronCenterSubject);

@@ -16,14 +16,15 @@ $loader->addPrefix('Tony\Task', __DIR__ . '/core');
 $loader->addPrefix('App', __DIR__ . '/src');
 $loader->register();
 
-require "app/cron.php";
-$config = require "app/config.php";
+require 'app/cron.php';
+$config = require 'app/config.php';
 
 $runner = new Runner($config['daemon']);
 $runner->setCrons($cronCenters);
 
 $action = $argv[1];
-switch ($action) {
+switch ($action)
+{
     case 'start':
         $runner->start();
         break;
