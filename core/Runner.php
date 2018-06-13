@@ -37,7 +37,7 @@ class Runner extends Daemon
     public function __construct($config)
     {
         $this->config = $config;
-        $this->pid = $config['pid'];
+        $this->pid    = $config['pid'];
     }
 
     /**
@@ -45,7 +45,7 @@ class Runner extends Daemon
      * @param SplObjectStorage $crons
      * @return Runner
      */
-    public function setCrons(SplObjectStorage $crons)
+    public function setCrons(SplObjectStorage $crons): Runner
     {
         $this->crons = $crons;
         return $this;
@@ -55,28 +55,35 @@ class Runner extends Daemon
     {
         $pid = $this->config['pid'];
 
-        try {
-            if (self::isRunning($pid)) {
+        try
+        {
+            if (self::isRunning($pid))
+            {
                 echo "daemon is already running.\n";
                 return;
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $e)
+        {
 
         }
 
-        try {
+        try
+        {
             self::work($this->config, function ($stdin, $stdout, $stderr) {
                 // these parameters are optional
-                while (true) {
+                while (true)
+                {
                     // do whatever it is daemons do
                     sleep(1); // sleep is good for you
 
                     // 循环处理每个定时器
-                    foreach ($this->crons as $cron) {
+                    foreach ($this->crons as $cron)
+                    {
                         /**
                          * @var CronCenter $cron
                          */
-                        if ($cron->isDue()) {
+                        if ($cron->isDue())
+                        {
                             $cron->notify();
                         }
                     }
@@ -85,7 +92,8 @@ class Runner extends Daemon
             );
 
             echo "daemon is now running.\n";
-        } catch (\Exception $e) {
+        } catch (\Exception $e)
+        {
 
         }
     }
@@ -97,10 +105,24 @@ class Runner extends Daemon
 
     public function ask()
     {
-        if (self::isRunning($this->pid)) {
+        if (self::isRunning($this->pid))
+        {
             echo "daemon is running.\n";
-        } else {
+        } else
+        {
             echo "daemon is not running.\n";
+        }
+    }
+
+    public function once(): void
+    {
+        // 循环处理每个定时器
+        foreach ($this->crons as $cron)
+        {
+            /**
+             * @var CronCenter $cron
+             */
+            $cron->notify();
         }
     }
 }

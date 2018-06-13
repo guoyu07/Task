@@ -8,7 +8,8 @@
 
 use Tony\Task\Runner;
 
-require "core/Loader.php";
+require 'core/Loader.php';
+require 'vendor/autoload.php';
 
 // 自动加载
 $loader = new Loader();
@@ -22,6 +23,10 @@ $config = require 'app/config.php';
 $runner = new Runner($config['daemon']);
 $runner->setCrons($cronCenters);
 
+if (!isset($argv[1]))
+{
+    exit('Usage: php start.php start|stop|ask' . "\n");
+}
 $action = $argv[1];
 switch ($action)
 {
@@ -34,6 +39,12 @@ switch ($action)
     case 'ask':
         $runner->ask();
         break;
+    case 'once':
+        $runner->once();
+        break;
+    case 'test':
+        $runner->ask();
+        break;
     default:
-        exit('input error!');
+        exit('input error!' . "\n");
 }

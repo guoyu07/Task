@@ -4,7 +4,9 @@
  */
 
 
-use App\Task\LogAll;
+use App\Task\AnalysisClientTcp;
+use App\Task\AnalysisClientUdp;
+use App\Task\Demo;
 use Tony\Task\CronCenter;
 
 $cronCenters = new SplObjectStorage();
@@ -12,8 +14,9 @@ $cronCenters = new SplObjectStorage();
 
 // 每5分钟运行一次的定时器
 $cronCenterSubject = new CronCenter();
-$cronCenterSubject->everyFiveMinutes();
-$cronCenterSubject->attach(new LogAll());
+$cronCenterSubject->everyMinute();
+// $cronCenterSubject->attach(new AnalysisClientTcp());
+$cronCenterSubject->attach(new AnalysisClientUdp());
 
 // 每1个小时运行一次的定时器
 
